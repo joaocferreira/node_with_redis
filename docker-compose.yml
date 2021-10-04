@@ -1,0 +1,19 @@
+version: '3.2'
+services:
+  redis:
+    image: redis:alpine
+
+  mock_api:
+    image: mock_api
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+    command:
+      node app.js
+    ports:
+      - "4040:4040"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
